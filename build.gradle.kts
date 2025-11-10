@@ -12,9 +12,7 @@ repositories {
 
 dependencies {
 
-    implementation("net.minestom:minestom:2025.08.18-1.21.8")
-
-    implementation("nub.wi1helm.template:Template:0.2.4.2")
+    implementation("net.minestom:minestom:2025.10.31-1.21.10")
 
     implementation("net.kyori:adventure-text-minimessage:4.17.0") // MiniMessage
     implementation("net.kyori:adventure-text-serializer-gson:4.17.0")

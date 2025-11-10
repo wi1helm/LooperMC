@@ -1,13 +1,20 @@
 package nub.wi1helm.listeners;
 
+import net.kyori.adventure.text.Component;
+import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.Player;
+import net.minestom.server.entity.PlayerHand;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
+import net.minestom.server.event.player.PlayerEntityInteractEvent;
 import net.minestom.server.event.player.PlayerMoveEvent;
+import net.minestom.server.item.ItemStack;
+import net.minestom.server.tag.Tag;
 import nub.wi1helm.ServerManager;
 import nub.wi1helm.goals.GoalManager;
 import nub.wi1helm.goals.ServerGoals;
 import nub.wi1helm.instances.LoopInstance;
+import nub.wi1helm.tasks.mail.Mailbox;
 import org.jetbrains.annotations.NotNull;
 
 public class GoalListener {
@@ -21,6 +28,7 @@ public class GoalListener {
 
     public GoalListener() {
         voidJumpers();
+        deliverMail();
     }
 
     public void voidJumpers() {
@@ -31,8 +39,28 @@ public class GoalListener {
 
            player.teleport(instance.getSpawn());
 
-           goalManager.incrementGoal(ServerGoals.VOID_JUMPERS);
+           goalManager.incrementGoal(ServerGoals.VOID_JUMPERS, 1);
 
+        });
+    }
+
+    public void deliverMail() {
+        node.addListener(PlayerEntityInteractEvent.class, event -> {
+            if (event.getHand() != PlayerHand.MAIN) return;
+
+            ItemStack item = event.getEntity().getItemInMainHand();
+
+            if (item.isAir()) return;
+
+            Entity entity = event.getTarget();
+
+            if (!item.getTag(Mailbox.ADDRESS_TAG()).equals(entity.getUuid())) {
+                return;
+            }
+
+            goalManager.incrementGoal(ServerGoals.DELIVER_MAIL, item.amount());
+
+            event.getPlayer().getInventory().setItemStack(event.getPlayer().getHeldSlot(), ItemStack.AIR);
         });
     }
 

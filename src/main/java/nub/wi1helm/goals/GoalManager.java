@@ -31,18 +31,18 @@ public class GoalManager {
         return activeGoals;
     }
 
-    public boolean hasGoal(ServerGoals type) {
+    public boolean hasActiveGoal(ServerGoals type) {
         return activeGoals.stream().anyMatch(goal -> goal.getType() == type);
     }
 
-    public void incrementGoal(ServerGoals type) {
+    public void incrementGoal(ServerGoals type, Integer amount) {
         for (ServerGoal goal : activeGoals) {
             if (goal.getType() == type) {
 
                 // Only increment if not completed
                 if (goal.isComplete()) return;
 
-                boolean completed = goal.increment(1);
+                boolean completed = goal.increment(amount);
                 if (completed) sendCompletionNotification(goal);
 
                 // Update boss bar whenever progress changes
@@ -119,5 +119,17 @@ public class GoalManager {
         if (recommendedBar != null) {
             player.showBossBar(recommendedBar);
         }
+    }
+
+    // reurns if goal is completed, if not active goal will still return false
+    public boolean isGoalCompleted(ServerGoals type) {
+        for (ServerGoal goal : activeGoals) {
+            if (goal.getType() == type) {
+
+                // Only increment if not completed
+                if (goal.isComplete()) return true;
+            }
+        }
+        return false;
     }
 }

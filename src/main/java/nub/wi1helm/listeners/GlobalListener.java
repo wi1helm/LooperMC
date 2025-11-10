@@ -12,12 +12,14 @@ public class GlobalListener {
 
     private final PlayerListener player = new PlayerListener();
     private final GoalListener goal = new GoalListener();
+    private final NPCListener npc = new NPCListener();
     private final EventNode<@NotNull Event> node = MinecraftServer.getGlobalEventHandler();
 
 
     private GlobalListener() {
         node.addChild(player.getNode());
         node.addChild(goal.getNode());
+        node.addChild(npc.getNode());
     }
 
     public static GlobalListener getInstance() {
@@ -27,5 +29,13 @@ public class GlobalListener {
         instance = new GlobalListener();
 
         return instance;
+    }
+
+    public PlayerListener getPlayer() {
+        return player;
+    }
+
+    public GoalListener getGoal() {
+        return goal;
     }
 }

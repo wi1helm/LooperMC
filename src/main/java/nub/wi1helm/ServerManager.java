@@ -2,6 +2,7 @@ package nub.wi1helm;
 
 import nub.wi1helm.goals.GoalManager;
 import nub.wi1helm.instances.LoopInstance;
+import nub.wi1helm.tasks.mail.MailManager;
 
 public class ServerManager {
 
