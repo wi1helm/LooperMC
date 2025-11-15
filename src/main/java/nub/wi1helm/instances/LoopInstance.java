@@ -14,38 +14,40 @@ import java.util.concurrent.CompletableFuture;
 
 public class LoopInstance extends InstanceContainer {
 
-    private int CHUNK_RADIUS_X = 6;
-    private int CHUNK_RADIUS_Z = 4;
+    private static LoopInstance instance;
 
-    private final Pos spawn = new Pos(-5.5,-47.0,40.5,180,0);
-    private final Integer playerBottom = -64;
+    private static final int CHUNK_RADIUS_X = 6;
+    private static final int CHUNK_RADIUS_Z = 4;
 
+    private final Pos spawn = new Pos(-5.5, -47.0, 40.5, 180, 0);
+    private final int playerBottom = -64;
 
-    public LoopInstance() {
+    private LoopInstance() {
         super(UUID.randomUUID(), DimensionType.OVERWORLD, new AnvilLoader("resources/instances/lobby"));
         this.enableAutoChunkLoad(false);
 
         Set<CompletableFuture<Chunk>> futures = new HashSet<>();
-
         for (int x = -CHUNK_RADIUS_X; x <= CHUNK_RADIUS_X; x++) {
             for (int z = -CHUNK_RADIUS_Z; z <= CHUNK_RADIUS_Z; z++) {
-                CompletableFuture<Chunk> future = this.loadChunk(x, z);
-
-                futures.add(future);
+                futures.add(this.loadChunk(x, z));
             }
         }
-
         CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
-
         MinecraftServer.getInstanceManager().registerInstance(this);
     }
 
+    public static LoopInstance get() {
+        if (instance == null) {
+            instance = new LoopInstance();
+        }
+        return instance;
+    }
 
     public Pos getSpawn() {
         return spawn;
     }
 
-    public Integer getPlayerBottom() {
+    public int getPlayerBottom() {
         return playerBottom;
     }
 }

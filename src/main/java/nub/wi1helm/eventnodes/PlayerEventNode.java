@@ -1,5 +1,6 @@
-package nub.wi1helm.listeners;
+package nub.wi1helm.eventnodes;
 
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
@@ -7,34 +8,48 @@ import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.event.trait.PlayerEvent;
-import nub.wi1helm.ServerManager;
+import net.minestom.server.utils.validate.Check;
 import nub.wi1helm.dialogs.GoalDialog;
+import nub.wi1helm.goals.GoalManager;
+import nub.wi1helm.instances.LoopInstance;
 import nub.wi1helm.player.LoopPlayer;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerListener {
+public class PlayerEventNode {
 
     private final EventNode<@NotNull PlayerEvent> node = EventNode.type("player", EventFilter.PLAYER);
 
-    private final ServerManager manager = ServerManager.getManager();
+    private static PlayerEventNode instance;
 
-    public PlayerListener() {
+    private PlayerEventNode() {
         onConfig();
         onSpawn();
-
         onBlockBreak();
+
+        MinecraftServer.getGlobalEventHandler().addChild(node);
+    }
+
+    public static PlayerEventNode init() {
+        if (instance == null) instance = new PlayerEventNode();
+        return instance;
+    }
+    public static PlayerEventNode get() {
+        Check.stateCondition(instance == null, "PlayerEventNode needs to be initiated before get-ted!");
+        return instance;
     }
 
     private void onConfig() {
         node.addListener(AsyncPlayerConfigurationEvent.class, event -> {
 
+            LoopInstance instance = LoopInstance.get();
+
             // Set Instance
-            event.setSpawningInstance(manager.getInstance());
+            event.setSpawningInstance(instance);
 
             // Get Player
             final Player player = event.getPlayer();
             // Set Spawn
-            player.setRespawnPoint(manager.getInstance().getSpawn());
+            player.setRespawnPoint(instance.getSpawn());
 
 
         });
@@ -43,9 +58,8 @@ public class PlayerListener {
     private void onSpawn() {
         node.addListener(PlayerSpawnEvent.class, event -> {
            final LoopPlayer player = (LoopPlayer) event.getPlayer();
-            manager.goalManager().updateRecommendedBar();
             // Show current boss bar to this player
-            manager.goalManager().showRecommendedBarTo(player);
+            GoalManager.get().showRecommendedBarTo(player);
         });
     }
 
@@ -53,11 +67,9 @@ public class PlayerListener {
         node.addListener(PlayerBlockBreakEvent.class, event -> {
            final LoopPlayer player = (LoopPlayer) event.getPlayer();
 
-            player.showDialog(new GoalDialog().get(manager.goalManager().getActiveGoals()));
-
+            player.showDialog(new GoalDialog().get(GoalManager.get().getActiveGoals()));
 
             event.setCancelled(!player.canBreak());
-
         });
     }
 

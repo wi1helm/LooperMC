@@ -8,8 +8,8 @@ import net.minestom.server.advancements.Notification;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import nub.wi1helm.ServerManager;
 import nub.wi1helm.Utils;
+import nub.wi1helm.instances.LoopInstance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,13 +18,24 @@ import java.util.List;
 
 public class GoalManager {
 
+    private static GoalManager instance;
+
     private final List<ServerGoal> activeGoals = new ArrayList<>();
 
     // The recommended goal boss bar
     private BossBar recommendedBar;
 
-    public GoalManager() {
+    private GoalManager() {
         this.activeGoals.addAll(generateRandomGoals());
+        this.activeGoals.add(ServerGoals.TOWN_CHORES.goal());
+        updateRecommendedBar(); // Initialize the boss bar on creation
+    }
+
+    public static GoalManager get() {
+        if (instance == null) {
+            instance = new GoalManager();
+        }
+        return instance;
     }
 
     public List<ServerGoal> getActiveGoals() {
@@ -65,7 +76,7 @@ public class GoalManager {
         ItemStack icon = ItemStack.of(Material.BAKED_POTATO);
         Notification notification = new Notification(title, FrameType.GOAL, icon);
 
-        for (Player player : ServerManager.getManager().getInstance().getPlayers()) {
+        for (Player player : LoopInstance.get().getPlayers()) {
             player.sendNotification(notification);
         }
     }
@@ -85,7 +96,7 @@ public class GoalManager {
      */
     public void updateRecommendedBar() {
         ServerGoal recommended = getRecommendedGoal();
-        var players = ServerManager.getManager().getInstance().getPlayers();
+        var players = LoopInstance.get().getPlayers();
 
         if (recommended == null) {
             // No more goals left, hide bar

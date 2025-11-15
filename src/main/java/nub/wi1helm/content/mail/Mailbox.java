@@ -1,8 +1,6 @@
-package nub.wi1helm.tasks.mail;
+package nub.wi1helm.content.mail;
 
-import net.kyori.adventure.nbt.CompoundBinaryTag;
 import net.kyori.adventure.text.Component;
-import net.minestom.server.component.DataComponent;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Entity;
@@ -13,17 +11,14 @@ import net.minestom.server.entity.metadata.display.BlockDisplayMeta;
 import net.minestom.server.entity.metadata.display.ItemDisplayMeta;
 import net.minestom.server.entity.metadata.display.TextDisplayMeta;
 import net.minestom.server.entity.metadata.other.InteractionMeta;
-import net.minestom.server.event.player.PlayerEntityInteractEvent;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.minestom.server.network.player.ResolvableProfile;
 import net.minestom.server.tag.Tag;
-import nub.wi1helm.ServerManager;
 import nub.wi1helm.goals.GoalManager;
 import nub.wi1helm.goals.ServerGoals;
-import nub.wi1helm.listeners.GlobalListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -102,7 +97,7 @@ public class Mailbox {
         Entity entity = new Entity(EntityType.TEXT_DISPLAY);
 
         entity.editEntityMeta(TextDisplayMeta.class, meta -> {
-            if (ServerManager.getManager().goalManager().hasActiveGoal(ServerGoals.DELIVER_MAIL)) {
+            if (GoalManager.get().hasActiveGoal(ServerGoals.DELIVER_MAIL)) {
                 meta.setText(name);
             }
             meta.setBillboardRenderConstraints(AbstractDisplayMeta.BillboardConstraints.VERTICAL);

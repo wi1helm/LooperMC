@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 
 public enum ServerGoals {
     // NPC interaction based
-    DELIVER_MAIL(Component.text("Deliver Mail"), Component.text("Deliver letters to the Postmaster NPC"), 200),
+    DELIVER_MAIL(Component.text("Deliver Mail"), Component.text("Deliver letters given by the Matt the Mailman NPC"), 200),
     BARTENDER_SUPPLY(Component.text("Bartender Supply"), Component.text("Restock the Tavern NPC with barrels of 'Suspicious Stew'"), 50),
     TRICKSTER_PRANKS(Component.text("Trickster Pranks"), Component.text("Give 'Slime Ball Pies' to the Trickster NPC"), 30),
     MAYOR_VOTES(Component.text("Mayor Votes"), Component.text("Collect fake votes for the Mayor NPC’s re-election"), 100),

@@ -6,6 +6,7 @@ import net.minestom.server.network.player.PlayerConnection;
 
 public class LoopPlayer extends Player {
 
+
     private Boolean canBreak = false;
     private Double loopers = 0.0;
 
