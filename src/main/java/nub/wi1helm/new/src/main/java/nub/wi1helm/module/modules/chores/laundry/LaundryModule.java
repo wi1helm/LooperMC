@@ -8,6 +8,9 @@ import nub.wi1helm.entity.EntityManager;
 import nub.wi1helm.goals.GoalManager;
 import nub.wi1helm.item.ItemManager;
 import nub.wi1helm.module.GameModule;
+import nub.wi1helm.module.modules.chores.laundry.entity.AlexNPC;
+import nub.wi1helm.module.modules.chores.laundry.entity.LaundryBasket;
+import nub.wi1helm.module.modules.chores.laundry.entity.LaundryLine;
 import nub.wi1helm.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,9 +36,11 @@ public class LaundryModule implements GameModule {
 
         this.npc = new AlexNPC(goalManager);
         this.npc.spawn(entityManager, worldManager.getTownWorld(), new Pos(-24.5, -42.5, 3.5, -120, -16));
+        this.npc.setupInteractions();
 
         setupBaskets();
         spawnBaskets();
+        setupBasketInteractions();
 
         setupLines();
         spawnLines();
@@ -56,6 +61,9 @@ public class LaundryModule implements GameModule {
 
     private void spawnBaskets() {
         baskets.forEach(laundryBasket -> laundryBasket.spawn(entityManager, worldManager.getTownWorld()));
+    }
+    private void setupBasketInteractions() {
+        baskets.forEach(LaundryBasket::setupInteractions);
     }
 
 

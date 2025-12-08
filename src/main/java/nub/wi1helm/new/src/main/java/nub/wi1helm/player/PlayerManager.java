@@ -9,8 +9,9 @@ import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.event.trait.PlayerEvent;
 import nub.wi1helm.core.GameService;
 import nub.wi1helm.goals.GoalManager;
-import nub.wi1helm.item.ItemManager;
-import nub.wi1helm.sidebar.SidebarManager;
+import nub.wi1helm.player.chat.ChatManager;
+import nub.wi1helm.player.sidebar.SidebarManager;
+import nub.wi1helm.player.tablist.TablistManager;
 import nub.wi1helm.world.TownWorld;
 import nub.wi1helm.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
@@ -21,11 +22,16 @@ public class PlayerManager implements GameService {
     private final WorldManager worldManager;
     private final GoalManager goalManager;
     private final SidebarManager sidebarManager;
+    private final ChatManager chatManager;
+    private final TablistManager tablistManager;
 
-    public PlayerManager(WorldManager worldManager, GoalManager goalManager, SidebarManager sidebarManager) {
+    public PlayerManager(WorldManager worldManager, GoalManager goalManager, SidebarManager sidebarManager, ChatManager chatManager, TablistManager tablistManager) {
         this.worldManager = worldManager;
         this.goalManager = goalManager;
         this.sidebarManager = sidebarManager;
+        this.chatManager = chatManager;
+        this.tablistManager = tablistManager;
+
 
         onConfig();
         onJoin();

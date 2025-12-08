@@ -6,7 +6,9 @@ import nub.wi1helm.goals.GoalManager;
 import nub.wi1helm.item.ItemManager;
 import nub.wi1helm.module.ModuleManager;
 import nub.wi1helm.player.PlayerManager;
-import nub.wi1helm.sidebar.SidebarManager;
+import nub.wi1helm.player.chat.ChatManager;
+import nub.wi1helm.player.sidebar.SidebarManager;
+import nub.wi1helm.player.tablist.TablistManager;
 import nub.wi1helm.world.WorldManager;
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class GameCore {
     private final ItemManager itemManager;
     private final ModuleManager moduleManager;
     private final SidebarManager sidebarManager;
+    private final ChatManager chatManager;
+    private final TablistManager tablistManager;
 
     public GameCore() {
         if (INSTANCE != null) {
@@ -41,7 +45,8 @@ public class GameCore {
         this.worldManager = new WorldManager();
         this.goalManager = new GoalManager();
         this.sidebarManager = new SidebarManager();
-
+        this.chatManager = register(new ChatManager());
+        this.tablistManager = new TablistManager();
 
         // 2. Initialize entity/item systems
         this.entityManager = register(new EntityManager());
@@ -49,7 +54,7 @@ public class GameCore {
 
 
         // PlayerManager depends on WorldManager and GoalManager
-        this.playerManager = register(new PlayerManager(this.worldManager, this.goalManager, this.sidebarManager));
+        this.playerManager = register(new PlayerManager(this.worldManager, this.goalManager, this.sidebarManager, chatManager, tablistManager));
         // 3. Initialize Content/Modules (Modules depend on all core systems)
         this.moduleManager = register(
                 new ModuleManager(this.worldManager, this.goalManager, this.entityManager, this.itemManager)
@@ -90,4 +95,7 @@ public class GameCore {
     public EntityManager getEntityManager() { return entityManager; }
     public ItemManager getItemManager() { return itemManager; }
     public ModuleManager getModuleManager() { return moduleManager; }
+    public ChatManager getChatManager() {
+        return chatManager;
+    }
 }

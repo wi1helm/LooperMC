@@ -63,6 +63,8 @@ public abstract class NPC extends GameEntity {
             display.editEntityMeta(TextDisplayMeta.class, meta -> {
                 meta.setText(text);
                 meta.setBillboardRenderConstraints(AbstractDisplayMeta.BillboardConstraints.CENTER);
+                meta.setBackgroundColor(0);
+                meta.setShadow(true);
             });
 
             spacers.add(spacer);
@@ -98,9 +100,6 @@ public abstract class NPC extends GameEntity {
             mannequinMeta.setProfile(new ResolvableProfile(skin));
         });
     }
-
-    @Override
-    public abstract void onPlayerInteract(PlayerEntityInteractEvent event);
 
     @Override
     public List<Entity> getMinestomEntities() {

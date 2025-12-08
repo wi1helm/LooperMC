@@ -55,7 +55,7 @@ public class GoalDialog {
 
         for (ServerGoal goal : goals) {
             // Single body containing all goal lines (use the same width as the header)
-            actions.add(new DialogActionButton(goal.getName().append(Component.text(": ",NamedTextColor.GRAY)) .append(goal.getProgress()), goal.getDescription() ,260, null));
+            actions.add(new DialogActionButton(goal.getName().append(Component.text(": ",NamedTextColor.GRAY)) .append(goal.getProgressComponent()), goal.getDescription() ,260, null));
         }
 
         return actions;

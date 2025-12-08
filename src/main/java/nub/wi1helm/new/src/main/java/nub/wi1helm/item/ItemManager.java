@@ -1,22 +1,19 @@
 package nub.wi1helm.item;
 
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.entity.Entity;
-import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
+import net.minestom.server.event.item.ItemDropEvent;
+import net.minestom.server.event.item.PickupItemEvent;
 import net.minestom.server.event.player.PlayerChangeHeldSlotEvent;
 import net.minestom.server.event.player.PlayerUseItemEvent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.tag.Tag;
 import nub.wi1helm.core.GameService;
-import nub.wi1helm.entity.EntityManager;
-import nub.wi1helm.module.modules.fishfountain.FishingRodItem;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,6 +28,8 @@ public class ItemManager implements GameService {
     public ItemManager() {
         onItemUse();
         onSlotHeldChange();
+        onItemDrop();
+        onItemPickup();
 
         logger.info("ItemManager initialized.");
     }
@@ -45,7 +44,10 @@ public class ItemManager implements GameService {
             ItemStack item = event.getItemStack();
 
             registry.forEach((tag, handler) -> {
+                // Check if the ItemStack has the specific boolean tag
                 Boolean hasTag = item.getTag(tag);
+
+                // Only execute the handler if the tag is present AND true
                 if (hasTag != null && hasTag) {
                     handler.onPlayerUse(event);
                 }
@@ -55,9 +57,50 @@ public class ItemManager implements GameService {
 
     public void onSlotHeldChange() {
         node.addListener(PlayerChangeHeldSlotEvent.class, event -> {
-            registry.forEach((booleanTag, gameItem) -> gameItem.onPlayerChangeHeldSlot(event));
-        });
+            // We look at the item that was just un-held (old slot)
+            ItemStack item = event.getItemInOldSlot();
 
+            registry.forEach((tag, handler) -> {
+                // Check if the ItemStack has the specific boolean tag
+                Boolean hasTag = item.getTag(tag);
+
+                // Only execute the handler if the tag is present AND true
+                if (hasTag != null && hasTag) {
+                    handler.onPlayerChangeHeldSlot(event);
+                }
+            });
+        });
+    }
+    public void onItemDrop() {
+        node.addListener(ItemDropEvent.class, event -> {
+            ItemStack item = event.getItemStack(); // The item that was dropped
+
+            registry.forEach((tag, handler) -> {
+                // Check if the dropped ItemStack has the specific boolean tag
+                Boolean hasTag = item.getTag(tag);
+
+                // Only execute the handler if the tag is present AND true
+                if (hasTag != null && hasTag) {
+                    handler.onDropItem(event);
+                }
+            });
+        });
+    }
+
+    public void onItemPickup() {
+        node.addListener(PickupItemEvent.class, event -> {
+            ItemStack item = event.getItemEntity().getItemStack(); // The item being picked up
+
+            registry.forEach((tag, handler) -> {
+                // Check if the picked-up ItemStack has the specific boolean tag
+                Boolean hasTag = item.getTag(tag);
+
+                // Only execute the handler if the tag is present AND true
+                if (hasTag != null && hasTag) {
+                    handler.onItemPickup(event);
+                }
+            });
+        });
     }
 
     @Override

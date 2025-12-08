@@ -9,6 +9,8 @@ public enum ServerGoals {
     TRICKSTER_PRANKS(Component.text("Trickster Pranks"), Component.text("Give 'Slime Ball Pies' to the Trickster NPC"), 30),
     MAYOR_VOTES(Component.text("Mayor Votes"), Component.text("Collect fake votes for the Mayor NPC’s re-election"), 100),
 
+    HIDE_AND_SEEK(Component.text("Hide & Seek"), Component.text("Find Lily NPC whereever she is hiding"), 50),
+
     // Special block/item interactions
     MAGIC_WELL_WISHES(Component.text("Magic Well Wishes"), Component.text("Throw custom 'Wish Coins' into the Magic Well block"), 300),
     VOID_JUMPERS(Component.text("Void Jumpers"), Component.text("Jump into the town’s Void Pit as a sacrifice"), 2),

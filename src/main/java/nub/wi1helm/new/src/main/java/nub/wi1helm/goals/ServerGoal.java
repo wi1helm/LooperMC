@@ -31,7 +31,7 @@ public class ServerGoal {
         return name.color(NamedTextColor.WHITE);
     }
 
-    public Component getProgress() {
+    public Component getProgressComponent() {
 
         if (isComplete()) {
             return Component.text("✔",NamedTextColor.GREEN);
@@ -51,6 +51,13 @@ public class ServerGoal {
 
     public Double getProgressRatio() {
         return progress.doubleValue() / target.doubleValue();
+    }
+
+    public Integer getTarget() {
+        return target;
+    }
+    public Integer getProgress() {
+        return progress;
     }
 }
 
