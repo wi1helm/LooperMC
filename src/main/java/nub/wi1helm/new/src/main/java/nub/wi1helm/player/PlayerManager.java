@@ -2,13 +2,18 @@ package nub.wi1helm.player;
 
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
+import net.minestom.server.entity.damage.Damage;
+import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
+import net.minestom.server.event.player.PlayerDeathEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.event.trait.PlayerEvent;
+import net.minestom.server.registry.RegistryKey;
 import nub.wi1helm.core.GameService;
 import nub.wi1helm.goals.GoalManager;
+import nub.wi1helm.module.modules.wizard.items.wand.spells.SpellOfTeleportation;
 import nub.wi1helm.player.chat.ChatManager;
 import nub.wi1helm.player.sidebar.SidebarManager;
 import nub.wi1helm.player.tablist.TablistManager;
@@ -35,7 +40,7 @@ public class PlayerManager implements GameService {
 
         onConfig();
         onJoin();
-
+        onDeath();
         System.out.println("PlayerManager initialized.");
    }
 
@@ -57,6 +62,12 @@ public class PlayerManager implements GameService {
             final Player player = event.getPlayer();
             goalManager.showRecommendedBarTo(player);
             sidebarManager.createSidebar((GamePlayer) player);
+
+        });
+    }
+
+    private void onDeath(){
+        node.addListener(PlayerDeathEvent.class, event -> {
 
         });
     }
