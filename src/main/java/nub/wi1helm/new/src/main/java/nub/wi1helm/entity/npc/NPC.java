@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.EntityType;
+import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.entity.metadata.avatar.MannequinMeta;
 import net.minestom.server.entity.metadata.display.AbstractDisplayMeta;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 public abstract class NPC extends GameEntity {
 
-    protected final Entity mannequin;
+    protected final LivingEntity mannequin;
     protected PlayerSkin skin;
 
     // A list of spacers and displays for stacked text
@@ -44,7 +45,7 @@ public abstract class NPC extends GameEntity {
         this.texts = Arrays.stream(texts).toList();
 
         // 1. The main visible entity
-        this.mannequin = new Entity(EntityType.MANNEQUIN);
+        this.mannequin = new LivingEntity(EntityType.MANNEQUIN);
         this.mannequin.editEntityMeta(MannequinMeta.class, meta -> {
             if (skin != null) meta.setProfile(new ResolvableProfile(skin));
         });
@@ -110,7 +111,7 @@ public abstract class NPC extends GameEntity {
         return allEntities;
     }
 
-    public Entity getMannequin() {
+    public LivingEntity getMannequin() {
         return mannequin;
     }
 }

@@ -8,14 +8,18 @@ import nub.wi1helm.core.GameService;
 import nub.wi1helm.entity.EntityManager;
 import nub.wi1helm.goals.GoalManager;
 import nub.wi1helm.item.ItemManager;
+import nub.wi1helm.module.modules.chores.gardener.GardenerModule;
+import nub.wi1helm.module.modules.chores.gardener.entity.GardenerNPC;
 import nub.wi1helm.module.modules.chores.laundry.LaundryModule;
 import nub.wi1helm.module.modules.fountain.FountainModule;
 import nub.wi1helm.module.modules.fishing.FishingModule;
+import nub.wi1helm.module.modules.grasseater.GrassEaterModule;
 import nub.wi1helm.module.modules.hideandseek.HideAndSeekModule;
 import nub.wi1helm.module.modules.mail.MailModule;
 import nub.wi1helm.module.modules.agents.AgentModule;
 import nub.wi1helm.module.modules.mayor.MayorModule;
 import nub.wi1helm.module.modules.chores.pondside.PondSideModule;
+import nub.wi1helm.module.modules.statuepolish.StatuePolishModule;
 import nub.wi1helm.module.modules.voidjumpers.VoidJumperModule;
 import nub.wi1helm.module.modules.wizard.WizardModule;
 import nub.wi1helm.world.WorldManager;
@@ -45,10 +49,15 @@ public class ModuleManager implements GameService {
         VoidJumperModule voidJumperModule = register(new VoidJumperModule(worldManager, goalManager));
         AgentModule agentModule = register(new AgentModule(worldManager, goalManager, entityManager));
         LaundryModule laundryModule = register(new LaundryModule(worldManager, goalManager, entityManager, itemManager));
+        GardenerModule gardenerModule = register(new GardenerModule(worldManager, goalManager, entityManager, itemManager));
+
         FishingModule fishingModule = register(new FishingModule(worldManager, entityManager, itemManager));
         FountainModule fountainModule = register(new FountainModule(fishingModule, worldManager, goalManager, entityManager, itemManager));
         HideAndSeekModule hideAndSeekModule = register(new HideAndSeekModule(worldManager, goalManager, entityManager));
         WizardModule wizardModule = register(new WizardModule(worldManager, goalManager, entityManager, itemManager));
+        StatuePolishModule statuePolishModule = register(new StatuePolishModule(worldManager, goalManager, entityManager));
+        GrassEaterModule grassEaterModule = register(new GrassEaterModule(goalManager));
+
 
         PondSideModule pondSideModule = register(new PondSideModule(worldManager, goalManager, entityManager, itemManager, fishingModule));
         MayorModule mayorModule = register(new MayorModule(worldManager, goalManager, entityManager, itemManager, fishingModule));

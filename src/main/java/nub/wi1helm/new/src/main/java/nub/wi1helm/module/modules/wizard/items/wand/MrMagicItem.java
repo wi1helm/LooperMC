@@ -189,6 +189,7 @@ public class MrMagicItem implements GameItem {
                 Component.text("LIVING LEGEND")
                         .color(MAGIC_COLOR)
                         .decorate(TextDecoration.BOLD)
+                        .decoration(TextDecoration.ITALIC, false)
         );
     }
 }

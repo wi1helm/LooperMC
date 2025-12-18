@@ -12,7 +12,6 @@ public enum ServerGoals {
     HIDE_AND_SEEK(Component.text("Hide & Seek"), Component.text("Find Lily NPC whereever she is hiding"), 50),
 
     // Special block/item interactions
-    MAGIC_WELL_WISHES(Component.text("Magic Well Wishes"), Component.text("Throw custom 'Wish Coins' into the Magic Well block"), 300),
     VOID_JUMPERS(Component.text("Void Jumpers"), Component.text("Jump into the town’s Void Pit as a sacrifice"), 2),
     MUSEUM_EXHIBITS(Component.text("Museum Exhibits"), Component.text("Donate custom relic items to the Town Museum"), 25),
     CANDLE_FESTIVAL(Component.text("Candle Festival"), Component.text("Light town candles during the Night Festival event"), 200),
@@ -24,7 +23,7 @@ public enum ServerGoals {
     MARKET_MADNESS(Component.text("Market Madness"), Component.text("Trade with market stall NPCs"), 500),
 
     // Chaotic/funny tasks
-    PIGEON_FEEDERS(Component.text("Pigeon Feeders"), Component.text("Feed custom 'Town Pigeons' at the park"), 250),
+    GRASS_EATER(Component.text("Grass Eater"), Component.text("Feed yourself with grass"), 250),
     FOUNTAIN_FISH(Component.text("Fountain Fish"), Component.text("Throw raw fish into the central fountain"), 100),
     DRUNKEN_DUELS(Component.text("Drunken Duels"), Component.text("Lose tavern duels (intentionally or not!)"), 50),
     STATUE_POLISH(Component.text("Statue Polish"), Component.text("Polish the Town Hero Statue with 'Shiny Rag' items"), 75);
